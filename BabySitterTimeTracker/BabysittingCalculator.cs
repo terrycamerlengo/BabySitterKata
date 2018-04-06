@@ -44,23 +44,16 @@ namespace BabySitterTimeTracker
             return span * START_TO_BED_RATE;
         }
 
+        /// <summary>
+        /// Even if bedtime is after midnight, we use that value as upper bound
+        /// </summary>
+        /// <param name="bedtime"></param>
+        /// <param name="endtime"></param>
+        /// <returns></returns>
         private int calculateBedToMidnight(int bedtime, int endtime)
         {
-            int span = 0;
-            if (endtime > 12)
-            {
-                if (bedtime <= 12)
-                {
-                    span = 12 - bedtime;
-                }
-            }
-            else
-            {
-                span = endtime - bedtime;
-            }
-
+            int span = endtime - bedtime;
             return span * BED_TO_MIDNIGHT_RATE;
-
         }
 
         private int calculateMidToEnd(int endtime)

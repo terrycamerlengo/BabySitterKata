@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BabySitterTimeTracker
 {
-    interface ICalculator
+    public interface ICalculator
     {
         decimal Calculate(BabySittingSession babySittingSession);
     }
