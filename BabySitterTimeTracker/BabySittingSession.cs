@@ -6,54 +6,64 @@ namespace BabySitterTimeTracker
     [Serializable()]
     public class BabySittingSession : ISerializable
     {
-        public DateTime startTime { get; private set; }
-        public DateTime endTime { get; private set; }
+        public int startTime { get; private set; }
+        public int endTime { get; private set; }
 
         public BabySittingSession()
         {
-            this.startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 16, 0, 0);
-            this.endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 4, 0, 0);
+            this.startTime = -1;
+            this.endTime = -1;
         }
 
         //Deserialization constructor.
         public BabySittingSession(SerializationInfo info)
         {
             //Get the values from info and assign them to the appropriate properties
-            this.startTime = (DateTime)info.GetValue("startTime", typeof(DateTime));
-            this.endTime = (DateTime)info.GetValue("endTime", typeof(DateTime));
+            this.startTime = (int)info.GetValue("startTime", typeof(int));
+            this.endTime = (int)info.GetValue("endTime", typeof(int));
         }
 
         protected BabySittingSession(SerializationInfo info, StreamingContext context)
         {
-            this.startTime = (DateTime)info.GetValue("startTime", typeof(DateTime));
-            this.endTime = (DateTime)info.GetValue("endTime", typeof(DateTime));
+            this.startTime = (int)info.GetValue("startTime", typeof(int));
+            this.endTime = (int)info.GetValue("endTime", typeof(int));
         }
-
+        
         //Serialization function.
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("startTime", startTime);
             info.AddValue("endTime", endTime);
         }
-
+        
         public void print()
         {
-            System.Console.WriteLine($"startTime is {this.startTime}, endTime is {this.endTime}");
+            System.Console.WriteLine($"startTime is {this.displayTimeEntry(this.startTime)}, endTime is {this.displayTimeEntry(this.endTime)}");
         }
 
-        public void setStartTime(int hours, int minutes)
+        public void setStartTime(int hour)
         {
-            this.startTime = setTime(hours, minutes);
+            this.startTime = setTime(hour);
         }
 
-        public void setEndTime(int hours, int minutes)
+        public void setEndTime(int hour)
         {
-            this.endTime = setTime(hours, minutes);
+            this.endTime = setTime(hour);
         }
 
-        public DateTime setTime(int hours, int minutes)
+        public int setTime(int hour)
         {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hours, minutes, 0);
+            if (hour < 5)
+            {
+                return 12 + hour;
+            }
+
+            return hour;
+        }
+
+        public string displayTimeEntry(int hour)
+        {
+            return (this.endTime > 12) ? $"{(hour - 12)} AM" : $"{hour} PM";
         }
     }
 }

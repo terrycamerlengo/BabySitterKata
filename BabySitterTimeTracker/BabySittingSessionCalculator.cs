@@ -8,8 +8,8 @@ namespace BabySitterTimeTracker
     {
         public decimal Calculate(BabySittingSession babySittingSession)
         {
-            var diff = babySittingSession.endTime.Subtract(babySittingSession.startTime);
-
+            var diff = babySittingSession.endTime - babySittingSession.startTime;
+            return 0;  //still a work in progress
         }
     }
 }

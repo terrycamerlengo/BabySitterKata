@@ -55,14 +55,11 @@ namespace BabySitterTimeTracker
             int startingHours = 0;
             while (startingHours < 17 || startingHours > 22)
             {
-                System.Console.Write("StartTime in military time hours (legit hours from 17 thru 22):");
+                System.Console.Write("Enter Start Time from 5 to 4 (round to nearest hour - we trust you):");
                 startingHours = Int32.Parse(System.Console.ReadLine());
             }
-            
-            System.Console.Write("StartTime in military time minutes:");
-            var startingMinutes = System.Console.ReadLine();
-           
-            Program.babySittingSession.setStartTime(startingHours, CheckMinutes(startingMinutes));
+                       
+            Program.babySittingSession.setStartTime(startingHours);
         }
 
         private static void SetEndTime()
@@ -79,22 +76,7 @@ namespace BabySitterTimeTracker
             System.Console.Write("End Time in military time minutes:");
             var endingMinutes = System.Console.ReadLine();
 
-            Program.babySittingSession.setStartTime(endingHours, CheckMinutes(endingMinutes));
-        }
-
-        private static int CheckMinutes(string minutes)
-        {
-            int nMinutes;
-            if (Int32.TryParse(minutes, out nMinutes))
-            {
-                if ((nMinutes > 59) || (nMinutes < 0))
-                    return 0;
-            }
-            else
-            {
-                throw new FormatException($"Illegal input for minutes. {minutes} must be a valid integer.");
-            }
-            return nMinutes;
+            Program.babySittingSession.setStartTime(endingHours);
         }
 
         private static void loadBabySittingSession()
