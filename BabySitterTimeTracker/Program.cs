@@ -1,11 +1,18 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BabySitterTimeTracker
 {
-    class Program
+    /*
+     ·    starts no earlier than 5:00PM
+            leaves no later than 4:00AM
+            gets paid $12/hour from start-time to bedtime
+            gets paid $8/hour from bedtime to midnight
+            gets paid $16/hour from midnight to end of job
+            gets paid for full hours (no fractional hours)
+    */
+    public static class Program
     {
         private static BabySittingSession babySittingSession;
         static void Main(string[] args)
@@ -26,11 +33,7 @@ namespace BabySitterTimeTracker
                         SetStartTime();
                         break;
                     case (3):
-                        System.Console.Write("End Time in military time hours:");
-                        var endingHours = Int32.Parse(System.Console.ReadLine());
-                        System.Console.Write("End Time in military time minutes:");
-                        var endingMinutes = Int32.Parse(System.Console.ReadLine());
-                        Program.babySittingSession.setStartTime(endingHours, endingMinutes);
+                        SetEndTime();
                         break;
                     case (4):
                         PrintAmountOwed();
@@ -48,17 +51,50 @@ namespace BabySitterTimeTracker
 
         private static void SetStartTime()
         {
-            //legit hours from 4-8 PM, or 14 thru 18
+            //legit hours from 5-10 PM, or 17 thru 22
             int startingHours = 0;
-            while (startingHours < 14 || startingHours > 18)
+            while (startingHours < 17 || startingHours > 22)
             {
-                System.Console.Write("StartTime in military time hours (legit hours from 14 thru 18):");
+                System.Console.Write("StartTime in military time hours (legit hours from 17 thru 22):");
                 startingHours = Int32.Parse(System.Console.ReadLine());
             }
             
             System.Console.Write("StartTime in military time minutes:");
-            var startingMinutes = Int32.Parse(System.Console.ReadLine());
-            Program.babySittingSession.setStartTime(startingHours, startingMinutes);
+            var startingMinutes = System.Console.ReadLine();
+           
+            Program.babySittingSession.setStartTime(startingHours, CheckMinutes(startingMinutes));
+        }
+
+        private static void SetEndTime()
+        {
+            int endingHours = 5;  //just make this greater than 4 AM
+            while ((endingHours > 4))
+            {
+                System.Console.Write("Enter end time in military hours (legit hours anything 4 or less):");
+                endingHours = Int32.Parse(System.Console.ReadLine());
+            }
+
+            System.Console.Write("End Time in military time hours:");
+            endingHours = Int32.Parse(System.Console.ReadLine());
+            System.Console.Write("End Time in military time minutes:");
+            var endingMinutes = System.Console.ReadLine();
+
+            Program.babySittingSession.setStartTime(endingHours, CheckMinutes(endingMinutes));
+        }
+
+        private static int CheckMinutes(string minutes)
+        {
+            int nMinutes;
+            if (Int32.TryParse(minutes, out nMinutes))
+            {
+                if ((nMinutes > 59) || (nMinutes < 0))
+                    return 0;
+            }
+            else
+            {
+                throw new FormatException($"Illegal input for minutes. {minutes} must be a valid integer.");
+            }
+            return nMinutes;
         }
 
         private static void loadBabySittingSession()

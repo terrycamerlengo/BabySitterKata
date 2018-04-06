@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BabySitterTimeTracker
 {
     [Serializable()]
     public class BabySittingSession : ISerializable
     {
-        DateTime startTime { get; set; }
-        DateTime endTime { get; set; }
+        public DateTime startTime { get; private set; }
+        public DateTime endTime { get; private set; }
 
         public BabySittingSession()
         {
