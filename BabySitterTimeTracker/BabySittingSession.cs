@@ -38,13 +38,13 @@ namespace BabySitterTimeTracker
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("startTime", startTime);
-            info.AddValue("bedTime", startTime);
+            info.AddValue("bedTime", bedTime);
             info.AddValue("endTime", endTime);
         }
         
         public void print()
         {
-            System.Console.WriteLine($"startTime is {this.displayTimeEntry(this.startTime)}, endTime is {this.displayTimeEntry(this.endTime)}");
+            System.Console.WriteLine($"startTime is {this.displayTimeEntry(this.startTime)}, bedtime is {this.displayTimeEntry(this.bedTime)},  endTime is {this.displayTimeEntry(this.endTime)}");
         }
 
         public void setStartTime(int hour)
@@ -74,7 +74,7 @@ namespace BabySitterTimeTracker
 
         public string displayTimeEntry(int hour)
         {
-            return (this.endTime > 12) ? $"{(hour - 12)} AM" : $"{hour} PM";
+            return (hour > 12) ? $"{(hour - 12)} AM" : $"{hour} PM";
         }
 
         /// <summary>

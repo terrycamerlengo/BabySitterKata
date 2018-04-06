@@ -18,7 +18,7 @@ namespace BabySitterTimeTracker
             {
                 cost = this.calculateStartToBed(babySittingSession.bedTime, babySittingSession.startTime) 
                         + this.calculateBedToMidnight(babySittingSession.bedTime, babySittingSession.endTime) 
-                        + this.calculateMidToEnd(babySittingSession.endTime);
+                        + this.calculateMidToEnd(babySittingSession.bedTime, babySittingSession.endTime);
             }
             else
             {
@@ -52,16 +52,32 @@ namespace BabySitterTimeTracker
         /// <returns></returns>
         private int calculateBedToMidnight(int bedtime, int endtime)
         {
-            int span = endtime - bedtime;
+            int span = 0;
+            if (bedtime <= 12)
+            {
+                if (endtime <= 12)
+                {
+                    span = endtime - bedtime;
+                }
+                else
+                {
+                    span = 12 - bedtime;
+                }
+            }
+
             return span * BED_TO_MIDNIGHT_RATE;
         }
 
-        private int calculateMidToEnd(int endtime)
+        private int calculateMidToEnd(int bedtime, int endtime)
         {
             int span = 0;
+            
             if (endtime > 12)
             {
-                span = endtime - 12; 
+                if (bedtime > 12)
+                    span = endtime - bedtime;
+                else 
+                    span = endtime - 12; 
             }
 
             return span * MIDNIGHT_TO_END_RATE;

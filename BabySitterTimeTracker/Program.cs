@@ -64,13 +64,13 @@ namespace BabySitterTimeTracker
         private static void SetBedTime()
         {
             var bedTimeHour = SetTime("Bed Time Hour");
-            Program.babySittingSession.setStartTime(bedTimeHour);
+            Program.babySittingSession.setBedTime(bedTimeHour);
         }
 
         private static void SetEndTime()
         {
             var endingTime = SetTime("End Time Hour");
-            Program.babySittingSession.setStartTime(endingTime);
+            Program.babySittingSession.setEndTime(endingTime);
         }
 
         private static int SetTime(string timeTypeDescription)
@@ -109,7 +109,16 @@ namespace BabySitterTimeTracker
 
         static void PrintAmountOwed()
         {
-
+            try
+            {
+                ICalculator calculator = new BabysittingCalculator();
+                var cost = calculator.Calculate(Program.babySittingSession);
+                System.Console.WriteLine("The cost of today's services are: " + cost);
+            }
+            catch(Exception e)
+            {
+                System.Console.WriteLine("Error with input format. Correct inputs. Details are: " + e.Message);
+            }
         }
 
         static void Quit()
