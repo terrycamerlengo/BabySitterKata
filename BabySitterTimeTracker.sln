@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySitterTimeTracker", "BabySitterTimeTracker\BabySitterTimeTracker.csproj", "{83C84AB1-F77D-43EF-A8FC-6B7451B0B3E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabySitterUnitTests", "BabySitterUnitTests\BabySitterUnitTests.csproj", "{1F31330C-CA7F-4AD8-9653-A67EBF3666CE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{83C84AB1-F77D-43EF-A8FC-6B7451B0B3E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83C84AB1-F77D-43EF-A8FC-6B7451B0B3E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83C84AB1-F77D-43EF-A8FC-6B7451B0B3E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F31330C-CA7F-4AD8-9653-A67EBF3666CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F31330C-CA7F-4AD8-9653-A67EBF3666CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F31330C-CA7F-4AD8-9653-A67EBF3666CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F31330C-CA7F-4AD8-9653-A67EBF3666CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
