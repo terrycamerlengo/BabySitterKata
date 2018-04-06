@@ -22,7 +22,7 @@ namespace BabySitterTimeTracker
 
             while (keepGoing)
             {
-                Console.WriteLine("1.) List Current Session\n2.) Enter Start Time\n3.) Enter End Time\n4.) Amount Owed\n5.) Quit");
+                Console.WriteLine("1.) List Current Session\n2.) Enter Start Time\n3.) Enter Bed Time\n4.) Enter End Time\n5.)Amount Owed\n6.) Quit\n7.) Help");
                 var command = Console.ReadLine();
                 switch (Int32.Parse(command))
                 {
@@ -33,17 +33,23 @@ namespace BabySitterTimeTracker
                         SetStartTime();
                         break;
                     case (3):
-                        SetEndTime();
+                        SetBedTime();
                         break;
                     case (4):
-                        PrintAmountOwed();
+                        SetEndTime();
                         break;
                     case (5):
+                        PrintAmountOwed();
+                        break;
+                    case (6):
                         Quit();
                         keepGoing = false;
                         break;
                     default:
-                        System.Console.Write("Please select a valid response. Try again.");
+                        System.Console.WriteLine("An example of a valid time would be any of the following: 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4");
+                        System.Console.WriteLine("The program will remember your last response, so you quit after entering each time - start, bed, and end.");
+                        System.Console.WriteLine("Once all three times (start, bed, and ending) are entered, the parents will be able to calculate your fee. You can also calculate your fee by selecting option 5.");
+                        System.Console.WriteLine("Please select a valid response. Try again.");
                         break;
                 }
             }
@@ -51,34 +57,33 @@ namespace BabySitterTimeTracker
 
         private static void SetStartTime()
         {
-            //legit hours from 5-10 PM, or 17 thru 22
-            int startingHours = 0;
-            while (startingHours < 17 || startingHours > 22)
-            {
-                System.Console.Write("Enter Start Time from 5 to 4 (round to nearest hour - we trust you):");
-                startingHours = Int32.Parse(System.Console.ReadLine());
-            }
-                       
+            var startingHours = SetTime("Starting Time Hour");
             Program.babySittingSession.setStartTime(startingHours);
+        }
+
+        private static void SetBedTime()
+        {
+            var bedTimeHour = SetTime("Bed Time Hour");
+            Program.babySittingSession.setStartTime(bedTimeHour);
         }
 
         private static void SetEndTime()
         {
-            int endingHours = 5;  //just make this greater than 4 AM
-            while ((endingHours > 4))
-            {
-                System.Console.Write("Enter end time in military hours (legit hours anything 4 or less):");
-                endingHours = Int32.Parse(System.Console.ReadLine());
-            }
-
-            System.Console.Write("End Time in military time hours:");
-            endingHours = Int32.Parse(System.Console.ReadLine());
-            System.Console.Write("End Time in military time minutes:");
-            var endingMinutes = System.Console.ReadLine();
-
-            Program.babySittingSession.setStartTime(endingHours);
+            var endingTime = SetTime("End Time Hour");
+            Program.babySittingSession.setStartTime(endingTime);
         }
 
+        private static int SetTime(string timeTypeDescription)
+        {
+            int timeHour = -1;  //just make this greater than 4 AM
+            while ((timeHour < 1))
+            {
+                System.Console.Write($"Enter {timeTypeDescription} time from 5 (PM) to 4 (AM) (don't worry about PM/AM and round to nearest hour - we trust you!):");
+                timeHour = Int32.Parse(System.Console.ReadLine());
+            }
+
+            return timeHour;
+        }
         private static void loadBabySittingSession()
         {
             //Clear mp for further usage.

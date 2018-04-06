@@ -8,10 +8,13 @@ namespace BabySitterTimeTracker
     {
         public int startTime { get; private set; }
         public int endTime { get; private set; }
+        public int bedTime { get; private set; }
+
 
         public BabySittingSession()
         {
             this.startTime = -1;
+            this.bedTime = -1;
             this.endTime = -1;
         }
 
@@ -20,12 +23,14 @@ namespace BabySitterTimeTracker
         {
             //Get the values from info and assign them to the appropriate properties
             this.startTime = (int)info.GetValue("startTime", typeof(int));
+            this.bedTime = (int)info.GetValue("bedTime", typeof(int));
             this.endTime = (int)info.GetValue("endTime", typeof(int));
         }
 
         protected BabySittingSession(SerializationInfo info, StreamingContext context)
         {
             this.startTime = (int)info.GetValue("startTime", typeof(int));
+            this.bedTime = (int)info.GetValue("bedTime", typeof(int));
             this.endTime = (int)info.GetValue("endTime", typeof(int));
         }
         
@@ -33,6 +38,7 @@ namespace BabySitterTimeTracker
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("startTime", startTime);
+            info.AddValue("bedTime", startTime);
             info.AddValue("endTime", endTime);
         }
         
@@ -51,6 +57,11 @@ namespace BabySitterTimeTracker
             this.endTime = setTime(hour);
         }
 
+        public void setBedTime(int hour)
+        {
+            this.bedTime = setTime(hour);
+        }
+
         public int setTime(int hour)
         {
             if (hour < 5)
@@ -64,6 +75,25 @@ namespace BabySitterTimeTracker
         public string displayTimeEntry(int hour)
         {
             return (this.endTime > 12) ? $"{(hour - 12)} AM" : $"{hour} PM";
+        }
+
+        /// <summary>
+        /// EndTime must be the same (left when kid went to sleep or kid never got to sleep) or later than bedTime.
+        /// BedTime must be the same (kid asleep when arrived) or later than Starttime. 
+        /// </summary>
+        /// <returns></returns>
+        public bool validateTimes()
+        {
+            bool validate = false;
+            if ((this.bedTime > 0) && (this.endTime > 0) && (this.startTime > 0))
+            {
+                if ((this.endTime >= this.bedTime) && (this.bedTime > this.startTime))
+                {
+                    validate = true;
+                }
+            }
+
+            return validate;
         }
     }
 }
